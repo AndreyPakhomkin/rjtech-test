@@ -6,18 +6,26 @@ interface PostsState {
     posts: Record<number, Post>;
     loading: boolean;
     error: string | null;
+    page: number;
 }
 
 const initialState: PostsState = {
     posts: {},
     loading: false,
     error: null,
+    page: -1
 };
 
 const postSlice = createSlice({
     name: "posts",
     initialState,
-    reducers: {},
+    reducers: {
+        incrementPage: (state) => {
+            if (state.page < 10) {
+                state.page += 1;
+            }
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addMatcher(postApi.endpoints.getPosts.matchPending, (state) => {
@@ -32,7 +40,7 @@ const postSlice = createSlice({
             })
             .addMatcher(postApi.endpoints.getPosts.matchRejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message || "Error fething posts";
+                state.error = action.error.message || "Error fetching posts";
             });
     },
 });

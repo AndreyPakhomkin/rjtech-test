@@ -1,31 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PostList from 'src/widgets/PostList';
 import { useGetPostsQuery } from "src/entities/post/postApi";
 import { Box, Typography } from "@mui/material";
 import { useAppSelector } from "src/shared/hooks/storeHooks";
+import { useAppDispatch } from "src/shared/hooks/storeHooks";
 
 const PostListPage: React.FC = () => {
-    const [page, setPage] = useState(0);
+    const dispatch = useAppDispatch();
+
+    const loaderRef = useRef<HTMLDivElement>(null);
     const storedPosts = useAppSelector(state => state.posts.posts);
     const hasPosts = Object.keys(storedPosts).length > 0;
+    const page = useAppSelector(state => state.posts.page);
 
-    const { error, isLoading } = useGetPostsQuery(page, {
-        skip: hasPosts
+    const prevPageRef = useRef<number>(page);
+
+    const { error, isLoading, isFetching } = useGetPostsQuery(page, {
+        skip: prevPageRef.current === page || page < 0
     });
+
+    useEffect(() => {
+        const savedScrollPosition = sessionStorage.getItem('scrollPosition');
+        if (savedScrollPosition) {
+            requestAnimationFrame(() => {
+                window.scrollTo(0, parseInt(savedScrollPosition, 10));
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    useEffect(() => {
+        console.log('useEffect isFetching page:', page)
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !isFetching && !isLoading) {
+                    dispatch({ type: 'posts/incrementPage' });
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        if (loaderRef.current) {
+            observer.observe(loaderRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [isFetching, isLoading, dispatch]);
 
     return (
         <Box sx={{ margin: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h4" color="primary.main">Posts list</Typography>
 
-            {isLoading && !hasPosts &&
-                <Typography variant="h6">Loading...</Typography>
-            }
-            {error &&
-                <Typography variant="h6" color="error">Error loading posts</Typography>
-            }
-            {!isLoading && hasPosts &&
-                <PostList posts={Object.values(storedPosts)} />
-            }
+            {hasPosts && <PostList posts={Object.values(storedPosts)} />}
+
+            <Box ref={loaderRef} sx={{ height: '20px', width: '100%' }}>
+                {isFetching && <Typography variant="body1">Loading more posts...</Typography>}
+            </Box>
+
+            {error && <Typography variant="h6" color="error">Error loading posts</Typography>}
         </Box>
     )
 }
