@@ -1,14 +1,29 @@
 import React from 'react';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import PostListPage from 'src/pages/PostsListPage/ui/PostListPage';
+import PostDetailPage from 'src/pages/PostDetailPage/ui/PostDetailPage';
+import { createTheme, ThemeProvider } from '@mui/material';
 
-function App() {
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#0056ab',
+    },
+    secondary: {
+      main: '#2a2a2b',
+    },
+  },
+});
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>1</h1>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Routes>
+        <Route path="/" element={<PostListPage />} />
+        <Route path="/post/:id" element={<PostDetailPage />} />
+      </Routes>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;

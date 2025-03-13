@@ -4,14 +4,18 @@ import { Post } from './types';
 export const postApi = createApi({
     reducerPath: 'postApi',
     baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com/' }),
+    keepUnusedDataFor: 0,
     endpoints: (builder) => ({
         getPosts: builder.query<Post[], number>({
             query: (page) => `posts?_limit=10&_start=${page * 10}`,
-        }),
-        getPostById: builder.query<Post, number>({
-            query: (id) => `posts/${id}`,
-        }),
+            forceRefetch({ currentArg, previousArg }) {
+                return currentArg !== previousArg
+            },
+            transformResponse: (response: Post[]) => {
+                return response;
+            }
+        })
     })
 })
 
-export const { useGetPostsQuery, useGetPostByIdQuery } = postApi;
+export const { useGetPostsQuery } = postApi;
