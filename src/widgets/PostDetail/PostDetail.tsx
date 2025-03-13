@@ -1,6 +1,7 @@
 import { Box } from "@mui/material"
 import { Post } from "src/entities/post/types"
 import Typography from "@mui/material/Typography"
+import { postStyle } from "src/shared/config/theme"
 
 interface PostDetailProps {
     post: Post
@@ -8,11 +9,10 @@ interface PostDetailProps {
 
 const PostDetail: React.FC<PostDetailProps> = ({ post }) => {
 
-    console.log(post)
     return (
-        <Box>
-            <Typography variant="h5" sx={{ color: 'primary.main' }}>{post.title}</Typography>
-            <Typography variant="h6" sx={{ color: 'secondary.main' }}>{post.body}</Typography>
+        <Box sx={postStyle}>
+            <Typography variant="h5" color="primary.main">{post.title}</Typography>
+            <Typography variant="h6" color="secondary.main">{post.body}</Typography>
         </Box>
     )
 }

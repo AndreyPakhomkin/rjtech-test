@@ -6,7 +6,10 @@ export const commentApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: 'https://jsonplaceholder.typicode.com/' }),
     endpoints: (builder) => ({
         getComments: builder.query<Comment[], number>({
-            query: () => `/comments`,
+            query: (postId) => `/comments?postId=${postId}`,
+            transformResponse: (response: Comment[]) => {
+                return response;
+            }
         })
     })
 })

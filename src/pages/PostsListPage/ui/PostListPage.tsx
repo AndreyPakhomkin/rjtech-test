@@ -14,14 +14,14 @@ const PostListPage: React.FC = () => {
     });
 
     return (
-        <Box sx={{ margin: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography variant="h4">Posts list</Typography>
+        <Box sx={{ margin: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Typography variant="h4" color="primary.main">Posts list</Typography>
 
             {isLoading && !hasPosts &&
                 <Typography variant="h6">Loading...</Typography>
             }
             {error &&
-                <Typography variant="h6">Error loading posts</Typography>
+                <Typography variant="h6" color="error">Error loading posts</Typography>
             }
             {!isLoading && hasPosts &&
                 <PostList posts={Object.values(storedPosts)} />

@@ -32,7 +32,7 @@ const postSlice = createSlice({
             })
             .addMatcher(postApi.endpoints.getPosts.matchRejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message || "Ошибка загрузки постов";
+                state.error = action.error.message || "Error fething posts";
             });
     },
 });

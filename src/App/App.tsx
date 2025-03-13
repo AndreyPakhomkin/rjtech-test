@@ -2,18 +2,8 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import PostListPage from 'src/pages/PostsListPage/ui/PostListPage';
 import PostDetailPage from 'src/pages/PostDetailPage/ui/PostDetailPage';
-import { createTheme, ThemeProvider } from '@mui/material';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#0056ab',
-    },
-    secondary: {
-      main: '#2a2a2b',
-    },
-  },
-});
+import { ThemeProvider } from '@mui/material';
+import { theme } from 'src/shared/config/theme';
 
 const App = () => {
   return (
