@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import PostList from 'src/widgets/PostList';
 import { useGetPostsQuery } from "src/entities/post/postApi";
 import { Box, Typography } from "@mui/material";
@@ -47,7 +47,7 @@ const PostListPage: React.FC = () => {
                     dispatch({ type: 'posts/incrementPage' });
                 }
             },
-            { threshold: 0.5 }
+            { threshold: 0.1 }
         );
 
         if (loaderRef.current) {
@@ -59,12 +59,12 @@ const PostListPage: React.FC = () => {
 
     return (
         <Box sx={{ margin: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Typography variant="h4" color="primary.main">Posts list</Typography>
+            <Typography variant="h4" color="primary.main">Posts</Typography>
 
             {hasPosts && <PostList posts={Object.values(storedPosts)} />}
 
-            <Box ref={loaderRef} sx={{ height: '20px', width: '100%' }}>
-                {isFetching && <Typography variant="body1">Loading more posts...</Typography>}
+            <Box ref={loaderRef} sx={{ height: '20px', color: 'primary.light' }}>
+                {isFetching && <Typography >Loading {hasPosts && 'more '}posts...</Typography>}
             </Box>
 
             {error && <Typography variant="h6" color="error">Error loading posts</Typography>}

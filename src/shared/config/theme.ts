@@ -20,7 +20,11 @@ export const postStyle = {
     borderColor: 'primary.light',
     borderRadius: '1rem',
     margin: '1rem 0',
-    padding: '1rem',
+    padding: '1rem'
+}
+
+export const postItemStyle = {
+    ...postStyle,
     '&:hover': {
         backgroundColor: '#f1f1f1'
     }
