@@ -1,12 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Comment } from "./types";
 import { commentApi } from "./commentApi";
-
-interface CommentsState {
-    comments: Record<number, Comment[]>;
-    loading: boolean;
-    error: string | null;
-}
+import { CommentsState } from "./types";
 
 const initialState: CommentsState = {
     comments: {},

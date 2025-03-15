@@ -1,13 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Post } from "./types";
 import { postApi } from "./postApi";
-
-interface PostsState {
-    posts: Record<number, Post>;
-    loading: boolean;
-    error: string | null;
-    page: number;
-}
+import { PostsState } from "./types";
 
 const initialState: PostsState = {
     posts: {},
