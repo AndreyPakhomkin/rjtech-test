@@ -39,4 +39,5 @@ const postSlice = createSlice({
     },
 });
 
+export const { incrementPage } = postSlice.actions;
 export default postSlice.reducer;

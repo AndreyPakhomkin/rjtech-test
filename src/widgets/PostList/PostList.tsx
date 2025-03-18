@@ -16,7 +16,7 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
                 <ListItem
                     component={Link}
                     to={`/post/${post.id}`}
-                    key={post.id}
+                    key={`post ${post.id}`}
                     sx={postItemStyle}
                 >
                     <Typography variant="h6" color="primary.main">{post.title}</Typography>

@@ -24,27 +24,24 @@ const CommentsList: React.FC<CommentsListProps> = ({ postId }) => {
 
     return (
         <Box>
-            {!showComments ? (
+            {!showComments &&
                 <Button variant='outlined' sx={buttonStyle} onClick={handleShowComments}>
                     Show comments
                 </Button>
-            ) : (
-                <>
-                    {isLoading ?
-                        <Typography variant="h6" color="primary.main">Loading...</Typography>
-                        : error ?
-                            <Typography variant="h6" color="error">Error fetching comments</Typography>
-                            :
-                            <Box sx={commentsStyle}>
-                                <Typography variant="h6" color="primary.main">Comments:</Typography>
-                                {comments.map((comment) => (
-                                    <CommentItem key={comment.id} comment={comment} />
-                                ))}
-                            </Box>
+            }
 
-                    }
-                </>
-            )}
+            {isLoading && <Typography variant="h6" color="primary.main">Loading...</Typography>}
+
+            {error && <Typography variant="h6" color="error">Error fetching comments</Typography>}
+
+            {showComments && !isLoading && !error &&
+                <Box sx={commentsStyle}>
+                    <Typography variant="h6" color="primary.main">Comments:</Typography>
+                    {comments.map((comment) => (
+                        <CommentItem key={`comment ${comment.id}`} comment={comment} />
+                    ))}
+                </Box>
+            }
         </Box>
     )
 }

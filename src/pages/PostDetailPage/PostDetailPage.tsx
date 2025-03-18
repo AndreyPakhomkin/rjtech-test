@@ -1,10 +1,10 @@
 import React from "react";
 import { Box } from "@mui/material";
-import PostDetail from "src/widgets/PostDetail";
+import PostDetail from "src/widgets/PostDetail/PostDetail";
 import { Link, useParams } from "react-router-dom";
 import { useAppSelector } from "src/shared/hooks/storeHooks";
 import { buttonStyle } from "src/shared/config/theme";
-import CommentsList from "src/widgets/CommentsList";
+import CommentsList from "src/widgets/CommentsList/CommentsList";
 
 const PostDetailPage = () => {
     const { id } = useParams<{ id: string }>();
